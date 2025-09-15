@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Générateur de Prompts Windsurf
 
-## Getting Started
+Transformez vos idées de codage en prompts parfaitement optimisés qui génèrent du code sans erreur et prêt pour la production avec Windsurf AI.
 
-First, run the development server:
+## ✨ Fonctionnalités
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🎯 **Prompts Optimisés** : Génère des prompts détaillés et précis pour Windsurf
+- 🤖 **Alimenté par l'IA** : Utilise GPT-4 via OpenRouter pour une qualité maximale
+- 🎨 **Interface Moderne** : Design responsive et animations fluides
+- ⚡ **Rapide et Efficace** : Génération en quelques secondes
+- 📋 **Copie Facile** : Un clic pour copier le prompt généré
+- 🔒 **Aucune Inscription** : Utilisez directement sans créer de compte
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clonez le projet**
+   ```bash
+   git clone <repository-url>
+   cd windsurf-prompt-generator
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Installez les dépendances**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Configurez les variables d'environnement**
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   
+   Éditez `.env.local` et ajoutez votre clé API OpenRouter :
+   ```
+   OPENROUTER_API_KEY=your_openrouter_api_key_here
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Obtenez votre clé API OpenRouter**
+   - Rendez-vous sur [OpenRouter.ai](https://openrouter.ai/)
+   - Créez un compte et obtenez votre clé API
+   - Ajoutez-la dans le fichier `.env.local`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Utilisation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Démarrez le serveur de développement**
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+2. **Ouvrez votre navigateur**
+   Allez sur [http://localhost:3000](http://localhost:3000)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Utilisez l'application**
+   - Décrivez votre tâche de codage dans le champ de texte
+   - Cliquez sur "Générer le Prompt Windsurf"
+   - Copiez le prompt optimisé généré
+   - Collez-le dans Windsurf pour obtenir du code parfait !
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Technologies Utilisées
+
+- **Next.js 15** - Framework React
+- **TypeScript** - Typage statique
+- **Tailwind CSS** - Styles utilitaires
+- **Framer Motion** - Animations
+- **Lucide React** - Icônes
+- **OpenRouter API** - Intelligence artificielle
+
+## 🌐 Déploiement sur Vercel
+
+1. **Connectez votre repository à Vercel**
+   - Allez sur [vercel.com](https://vercel.com)
+   - Importez votre projet GitHub
+
+2. **Configurez les variables d'environnement**
+   - Dans les paramètres Vercel, ajoutez :
+   ```
+   OPENROUTER_API_KEY=your_openrouter_api_key_here
+   ```
+
+3. **Déployez**
+   - Vercel déploiera automatiquement votre application
+   - Votre app sera disponible sur une URL Vercel
+
+## 🎯 Comment ça marche
+
+1. **Décrivez votre tâche** : Entrez une description simple de ce que vous voulez coder
+2. **IA optimise** : Notre système utilise GPT-4 pour transformer votre description en prompt détaillé
+3. **Copiez et utilisez** : Le prompt optimisé est prêt à être utilisé dans Windsurf
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues ! N'hésitez pas à :
+- Ouvrir des issues pour signaler des bugs
+- Proposer de nouvelles fonctionnalités
+- Soumettre des pull requests
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
+
+## 🙏 Remerciements
+
+- [Windsurf](https://codeium.com/windsurf) pour l'inspiration
+- [OpenRouter](https://openrouter.ai/) pour l'accès aux modèles IA
+- [Vercel](https://vercel.com) pour l'hébergement
+
+---
+
+Créé avec ❤️ pour la communauté des développeurs
