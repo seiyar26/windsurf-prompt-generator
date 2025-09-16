@@ -102,22 +102,22 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
           </div>
           
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
-            Windsurf
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Prompt</span>
+            Générateur
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Windsurf</span>
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed font-light max-w-2xl mx-auto">
-            Transform your ideas into perfect prompts that generate 
-            <span className="text-white font-medium"> flawless code</span>
+            Transformez vos idées en prompts parfaits qui génèrent du 
+            <span className="text-white font-medium"> code impeccable</span>
           </p>
 
           <div className="flex items-center justify-center gap-3">
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-white text-sm font-medium">AI-Powered</span>
+              <span className="text-white text-sm font-medium">IA Avancée</span>
             </div>
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full">
-              <span className="text-white text-sm font-medium">Sonoma Dusk Alpha</span>
+              <span className="text-white text-sm font-medium">Sonoma Sky Alpha</span>
             </div>
           </div>
         </motion.div>
@@ -135,7 +135,7 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
               <textarea
                 value={task}
                 onChange={(e) => setTask(e.target.value)}
-                placeholder="Describe your coding task... For example: 'Create a user authentication system with React and Firebase' or 'Build a REST API to manage products with Node.js and MongoDB'"
+                placeholder="Décrivez votre tâche de développement... Par exemple : 'Créer un système d'authentification avec React et Firebase' ou 'Construire une API REST pour gérer les produits avec Node.js et MongoDB' ou 'Designer une interface moderne avec animations'"
                 className="w-full min-h-[160px] p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 resize-none text-white placeholder-slate-300 text-lg leading-relaxed transition-all duration-300"
                 disabled={isLoading}
               />
@@ -154,12 +154,12 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
               {isLoading ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Generating Magic...
+                  Génération en cours...
                 </>
               ) : (
                 <>
                   <Wand2 className="w-5 h-5" />
-                  Generate Windsurf Prompt
+                  Générer le Prompt Windsurf
                 </>
               )}
             </motion.button>
@@ -180,7 +180,7 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
                       <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                       <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="ml-4 text-slate-300 text-sm font-medium">Optimized Prompt</span>
+                      <span className="ml-4 text-slate-300 text-sm font-medium">Prompt Optimisé</span>
                     </div>
                     <motion.button
                       onClick={handleCopy}
@@ -191,12 +191,12 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
                       {isCopied ? (
                         <>
                           <Check className="w-4 h-4" />
-                          <span className="text-sm font-medium">Copied!</span>
+                          <span className="text-sm font-medium">Copié !</span>
                         </>
                       ) : (
                         <>
                           <Copy className="w-4 h-4" />
-                          <span className="text-sm font-medium">Copy</span>
+                          <span className="text-sm font-medium">Copier</span>
                         </>
                       )}
                     </motion.button>

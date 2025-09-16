@@ -11,18 +11,18 @@ if (!OPENROUTER_API_KEY) {
 const detectIntention = (task: string) => {
   const taskLower = task.toLowerCase();
   
-  // Détection des types de projets
+  // Détection des types de projets (élargie pour une meilleure compréhension)
   const projectTypes = {
-    ui_design: ['design', 'interface', 'ui', 'ux', 'layout', 'style', 'css', 'tailwind', 'bootstrap', 'responsive', 'mobile', 'desktop'],
-    frontend: ['react', 'vue', 'angular', 'svelte', 'next.js', 'nuxt', 'frontend', 'client', 'spa', 'pwa'],
-    backend: ['api', 'server', 'backend', 'node.js', 'express', 'fastapi', 'django', 'flask', 'spring', 'database', 'mongodb', 'postgresql', 'mysql'],
-    fullstack: ['fullstack', 'full-stack', 'complet', 'application complète', 'app complète'],
-    mobile: ['mobile', 'ios', 'android', 'react native', 'flutter', 'swift', 'kotlin'],
-    data: ['data', 'analyse', 'visualisation', 'dashboard', 'graphique', 'chart', 'analytics', 'machine learning', 'ai'],
-    auth: ['authentification', 'login', 'register', 'auth', 'jwt', 'oauth', 'session', 'utilisateur'],
-    ecommerce: ['ecommerce', 'e-commerce', 'boutique', 'shop', 'panier', 'paiement', 'stripe', 'paypal'],
-    cms: ['cms', 'blog', 'article', 'contenu', 'éditeur', 'admin'],
-    game: ['jeu', 'game', 'gaming', 'canvas', 'webgl', 'three.js']
+    ui_design: ['design', 'interface', 'ui', 'ux', 'layout', 'style', 'css', 'tailwind', 'bootstrap', 'responsive', 'mobile', 'desktop', 'maquette', 'wireframe', 'prototype', 'figma', 'sketch', 'adobe', 'couleur', 'typographie', 'animation', 'transition', 'hover', 'gradient', 'shadow', 'border', 'card', 'button', 'form', 'modal', 'navbar', 'sidebar', 'footer', 'hero', 'landing', 'theme', 'dark mode', 'light mode', 'glassmorphism', 'neumorphism', 'material design', 'flat design'],
+    frontend: ['react', 'vue', 'angular', 'svelte', 'next.js', 'nuxt', 'frontend', 'client', 'spa', 'pwa', 'component', 'hook', 'state', 'props', 'jsx', 'tsx', 'routing', 'navigation', 'redux', 'context', 'zustand', 'recoil', 'vite', 'webpack', 'parcel'],
+    backend: ['api', 'server', 'backend', 'node.js', 'express', 'fastapi', 'django', 'flask', 'spring', 'database', 'mongodb', 'postgresql', 'mysql', 'prisma', 'sequelize', 'mongoose', 'orm', 'sql', 'nosql', 'redis', 'cache', 'middleware', 'route', 'controller', 'service', 'model', 'schema', 'migration', 'seed'],
+    fullstack: ['fullstack', 'full-stack', 'complet', 'application complète', 'app complète', 'mern', 'mean', 'lamp', 'jamstack', 'serverless', 'microservices'],
+    mobile: ['mobile', 'ios', 'android', 'react native', 'flutter', 'swift', 'kotlin', 'expo', 'cordova', 'phonegap', 'ionic', 'xamarin', 'native', 'hybrid', 'cross-platform', 'app store', 'play store'],
+    data: ['data', 'analyse', 'visualisation', 'dashboard', 'graphique', 'chart', 'analytics', 'machine learning', 'ai', 'ml', 'deep learning', 'neural network', 'tensorflow', 'pytorch', 'pandas', 'numpy', 'matplotlib', 'plotly', 'd3.js', 'tableau', 'power bi', 'big data', 'etl', 'pipeline'],
+    auth: ['authentification', 'login', 'register', 'auth', 'jwt', 'oauth', 'session', 'utilisateur', 'user', 'signin', 'signup', 'password', 'token', 'refresh token', 'security', 'authorization', 'permission', 'role', 'rbac', 'acl', '2fa', 'mfa', 'biometric', 'sso'],
+    ecommerce: ['ecommerce', 'e-commerce', 'boutique', 'shop', 'panier', 'paiement', 'stripe', 'paypal', 'cart', 'checkout', 'product', 'catalog', 'inventory', 'order', 'invoice', 'shipping', 'tax', 'discount', 'coupon', 'marketplace', 'vendor', 'multi-vendor'],
+    cms: ['cms', 'blog', 'article', 'contenu', 'éditeur', 'admin', 'content management', 'wordpress', 'drupal', 'strapi', 'sanity', 'contentful', 'ghost', 'headless cms', 'wysiwyg', 'markdown', 'rich text', 'media library'],
+    game: ['jeu', 'game', 'gaming', 'canvas', 'webgl', 'three.js', 'unity', 'unreal', 'godot', 'phaser', 'pixi.js', 'babylon.js', '2d', '3d', 'sprite', 'animation', 'physics', 'collision', 'score', 'leaderboard', 'multiplayer']
   };
 
   // Détection des technologies
@@ -86,7 +86,15 @@ const detectIntention = (task: string) => {
 
 // Prompts système spécialisés par type
 const getSystemPrompt = (intention: Intention) => {
-  const basePrompt = `Tu es un expert en ingénierie de prompts spécialisé dans l'optimisation des prompts pour Windsurf AI. Tu dois analyser parfaitement l'intention de l'utilisateur et créer un prompt ultra-précis qui génère du code de qualité production.`;
+  const basePrompt = `Tu es un expert en ingénierie de prompts spécialisé dans l'optimisation des prompts pour Windsurf AI. 
+
+RÈGLES IMPORTANTES :
+- Génère des prompts CONCIS et DIRECTS (maximum 200-300 mots)
+- Évite les listes exhaustives et les spécifications trop détaillées
+- Focus sur l'essentiel de la demande utilisateur
+- Le prompt doit être immédiatement compréhensible par Windsurf
+- Utilise un langage naturel et précis
+- Adapte le niveau de détail à la complexité de la tâche`;
 
   const typeSpecificPrompts: Record<string, string> = {
     ui_design: `${basePrompt}
@@ -233,112 +241,35 @@ Tu dois créer un prompt qui génère du code de jeu. Inclus :
 const generateOptimizedPrompt = (intention: Intention) => {
   const { primaryType, technologies, complexity, originalTask } = intention;
   
-  let prompt = `ANALYSE DE LA TÂCHE :
-Type détecté : ${primaryType}
-Technologies : ${technologies.join(', ') || 'Non spécifiées'}
-Complexité : ${complexity}
-Tâche originale : "${originalTask}"
+  // Prompt de base simple et direct
+  let prompt = `${originalTask}`;
 
-PROMPT WINDSURF OPTIMISÉ :
-
-Crée ${originalTask}`;
-
-  // Ajout des spécifications techniques selon le type
+  // Ajout de contexte technique minimal selon le type détecté
   if (primaryType === 'ui_design') {
-    prompt += `
-
-SPÉCIFICATIONS DESIGN :
-- Design moderne et professionnel avec une palette de couleurs cohérente
-- Interface responsive (mobile-first) avec breakpoints : 320px, 768px, 1024px, 1440px
-- Typographie hiérarchisée avec des tailles et poids appropriés
-- Espacements cohérents basés sur une grille 8px
-- États interactifs : hover, focus, active, disabled avec transitions fluides
-- Accessibilité WCAG 2.1 AA : contrastes, navigation clavier, ARIA labels
-- Animations subtiles et performantes (CSS transforms, pas de layout shifts)
-- Composants réutilisables avec variants et props configurables`;
+    prompt += `\n\nCrée une interface moderne et responsive avec un design professionnel. Utilise des composants réutilisables et assure-toi que l'interface soit accessible.`;
   }
 
   if (technologies.includes('react')) {
-    prompt += `
-
-SPÉCIFICATIONS REACT :
-- Composants fonctionnels avec hooks TypeScript
-- Props typées avec interfaces strictes
-- Gestion d'état avec useState/useReducer/Context selon la complexité
-- useEffect avec dépendances correctes et cleanup
-- Mémorisation avec useMemo/useCallback pour les performances
-- Gestion d'erreurs avec Error Boundaries
-- Tests avec React Testing Library
-- Code splitting et lazy loading pour les performances`;
+    prompt += `\n\nUtilise React avec des composants fonctionnels et hooks. Assure-toi que le code soit typé avec TypeScript.`;
   }
 
   if (technologies.includes('tailwind')) {
-    prompt += `
-
-SPÉCIFICATIONS TAILWIND :
-- Classes utilitaires optimisées et cohérentes
-- Responsive design avec préfixes sm:, md:, lg:, xl:
-- Variables CSS custom pour les couleurs et espacements
-- Composants avec @apply pour éviter la répétition
-- Dark mode support avec classe 'dark:'
-- Purge CSS configuré pour la production
-- Plugin forms et typography si nécessaire`;
+    prompt += `\n\nUtilise Tailwind CSS pour le styling avec des classes utilitaires cohérentes.`;
   }
 
   if (primaryType === 'backend' || technologies.includes('nodejs')) {
-    prompt += `
-
-SPÉCIFICATIONS BACKEND :
-- Architecture MVC ou Clean Architecture
-- Validation des données avec Joi/Zod
-- Authentification JWT avec refresh tokens
-- Middleware de sécurité : helmet, cors, rate-limiting
-- Gestion d'erreurs centralisée avec logging
-- Base de données avec migrations et seeds
-- Tests d'intégration avec supertest
-- Documentation API avec Swagger/OpenAPI
-- Variables d'environnement sécurisées`;
+    prompt += `\n\nCrée une API robuste avec une architecture claire, validation des données et gestion d'erreurs appropriée.`;
   }
 
-  // Ajout des bonnes pratiques selon la complexité
+  // Ajout d'exigences selon la complexité
   if (complexity === 'advanced') {
-    prompt += `
-
-EXIGENCES AVANCÉES :
-- Architecture scalable et maintenable
-- Patterns de design appropriés (Factory, Observer, etc.)
-- Performance optimisée (lazy loading, caching, compression)
-- Monitoring et logging complets
-- Tests automatisés (unit, integration, e2e)
-- CI/CD pipeline ready
-- Sécurité enterprise (OWASP Top 10)
-- Documentation technique complète
-- Internationalisation (i18n) si applicable`;
+    prompt += `\n\nLe code doit être de niveau production avec une architecture scalable, des tests et une documentation complète.`;
+  } else if (complexity === 'simple') {
+    prompt += `\n\nGarde le code simple et facile à comprendre.`;
   }
 
-  prompt += `
-
-STRUCTURE DE FICHIERS :
-- Organisation claire et logique des dossiers
-- Séparation des responsabilités (components, hooks, utils, types)
-- Index files pour les exports propres
-- Configuration centralisée (constants, config)
-
-QUALITÉ DU CODE :
-- Code lisible avec nommage explicite
-- Commentaires JSDoc pour les fonctions complexes
-- Gestion d'erreurs exhaustive avec messages utilisateur
-- Validation des inputs côté client et serveur
-- Performance optimisée (éviter les re-renders inutiles)
-- Accessibilité native (semantic HTML, ARIA)
-
-DÉPLOIEMENT :
-- Configuration pour l'environnement de production
-- Variables d'environnement documentées
-- Build optimisé et minifié
-- Prêt pour le déploiement sur Vercel/Netlify/AWS
-
-Le code généré doit être immédiatement utilisable en production, sans bugs, avec toutes les fonctionnalités demandées implémentées et testées.`;
+  // Instruction finale
+  prompt += `\n\nGénère du code complet, fonctionnel et prêt à utiliser.`;
 
   return prompt;
 };
@@ -380,7 +311,7 @@ export async function POST(request: NextRequest) {
         'X-Title': 'Générateur de Prompts Windsurf'
       },
       body: JSON.stringify({
-        model: 'openrouter/sonoma-dusk-alpha',
+        model: 'openrouter/sonoma-sky-alpha',
         messages: [
           {
             role: 'system',
@@ -388,11 +319,19 @@ export async function POST(request: NextRequest) {
           },
           {
             role: 'user',
-            content: `Analyse cette tâche et génère le prompt Windsurf le plus optimisé possible :
+            content: `Analyse cette demande et génère un prompt Windsurf concis et naturel :
 
-TÂCHE : "${task}"
+DEMANDE : "${task}"
 
-Tu dois retourner UNIQUEMENT le prompt optimisé final, sans explication préliminaire. Le prompt doit être ultra-précis et générer du code parfait du premier coup.`
+INSTRUCTIONS :
+- Génère un prompt court et direct (maximum 100-150 mots)
+- Utilise un langage naturel et conversationnel
+- Inclus seulement les détails techniques essentiels
+- Évite les listes longues et les spécifications exhaustives
+- Le prompt doit être immédiatement compréhensible
+- Focus sur l'intention principale de l'utilisateur
+
+Retourne UNIQUEMENT le prompt optimisé, sans explication.`
           }
         ],
         temperature: 0.3,
@@ -433,7 +372,7 @@ Tu dois retourner UNIQUEMENT le prompt optimisé final, sans explication prélim
     return NextResponse.json({ 
       prompt: generatedPrompt,
       intention: intention,
-      model: 'openrouter/sonoma-dusk-alpha'
+      model: 'openrouter/sonoma-sky-alpha'
     });
 
   } catch (error) {
