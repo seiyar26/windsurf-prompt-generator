@@ -4,9 +4,10 @@ import Header from '@/components/Header';
 import PromptGenerator from '@/components/PromptGenerator';
 import Features from '@/components/Features';
 import HowItWorks from '@/components/HowItWorks';
+import { GenerationResult } from '@/types';
 
 export default function Home() {
-  const handleGenerate = async (task: string): Promise<string> => {
+  const handleGenerate = async (task: string): Promise<GenerationResult> => {
     try {
       const response = await fetch('/api/generate-prompt', {
         method: 'POST',
@@ -21,7 +22,7 @@ export default function Home() {
       }
 
       const data = await response.json();
-      return data.prompt;
+      return data; // Retourne l'objet complet avec prompt, intention, etc.
     } catch (error) {
       console.error('Erreur:', error);
       throw error;

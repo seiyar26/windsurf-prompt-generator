@@ -35,9 +35,15 @@ export default function Header() {
         <span className="text-gray-500">Basé sur 1,239 avis utilisateurs</span>
       </div>
 
-      <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
-        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-        Alimenté par l&apos;IA - Aucune inscription requise
+      <div className="flex flex-col sm:flex-row items-center gap-3">
+        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-100 to-blue-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium border border-green-200">
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          Alimenté par l&apos;IA - Aucune inscription requise
+        </div>
+        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium border border-purple-200">
+          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+          Modèle Sonoma Dusk Alpha
+        </div>
       </div>
     </motion.header>
   );
