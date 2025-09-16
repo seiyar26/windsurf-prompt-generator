@@ -86,76 +86,130 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-6">
-      {/* Section de saisie */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="space-y-4"
-      >
-        <div className="relative">
-          <textarea
-            value={task}
-            onChange={(e) => setTask(e.target.value)}
-            placeholder="Describe your coding task... For example: 'Create a user authentication system with React and Firebase' or 'Build a REST API to manage products with Node.js and MongoDB'"
-            className="w-full min-h-[120px] p-4 border-2 border-blue-500 rounded-lg focus:outline-none focus:border-blue-600 resize-none text-gray-900 placeholder-gray-500 text-base leading-relaxed transition-all duration-200 bg-white"
-            disabled={isLoading}
-          />
-          <div className="absolute bottom-3 right-3 text-xs text-gray-400">
-            {task.length}/1000
-          </div>
-        </div>
-
-        <motion.button
-          onClick={handleGenerate}
-          disabled={!task.trim() || isLoading}
-          className="w-full bg-gray-600 text-white py-3 px-6 rounded-lg font-medium text-base hover:bg-gray-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-          whileHover={{ scale: 1.005 }}
-          whileTap={{ scale: 0.995 }}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Generate Windsurf Prompt
-            </>
-          ) : (
-            <>
-              <Wand2 className="w-4 h-4" />
-              Generate Windsurf Prompt
-            </>
-          )}
-        </motion.button>
-      </motion.div>
-
-      {/* Section de résultat */}
-      {result && (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6">
+      <div className="w-full max-w-4xl mx-auto space-y-8">
+        {/* Titre et description */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="space-y-4"
+          transition={{ duration: 0.8 }}
+          className="text-center"
         >
-          <div className="relative">
-            <pre className="bg-white border-2 border-gray-200 rounded-lg p-4 text-sm text-gray-900 whitespace-pre-wrap overflow-x-auto max-h-80 overflow-y-auto leading-relaxed">
-              {result.prompt}
-            </pre>
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mb-6 shadow-2xl">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 leading-tight">
+            Windsurf
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Prompt</span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-slate-300 mb-6 leading-relaxed font-light max-w-2xl mx-auto">
+            Transform your ideas into perfect prompts that generate 
+            <span className="text-white font-medium"> flawless code</span>
+          </p>
+
+          <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full">
+              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-white text-sm font-medium">AI-Powered</span>
+            </div>
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-3 py-1.5 rounded-full">
+              <span className="text-white text-sm font-medium">Sonoma Dusk Alpha</span>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Interface de génération */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl"
+        >
+          {/* Section de saisie */}
+          <div className="space-y-6">
+            <div className="relative">
+              <textarea
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                placeholder="Describe your coding task... For example: 'Create a user authentication system with React and Firebase' or 'Build a REST API to manage products with Node.js and MongoDB'"
+                className="w-full min-h-[160px] p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 resize-none text-white placeholder-slate-300 text-lg leading-relaxed transition-all duration-300"
+                disabled={isLoading}
+              />
+              <div className="absolute bottom-4 right-4 text-sm text-slate-400">
+                {task.length}/1000
+              </div>
+            </div>
+
             <motion.button
-              onClick={handleCopy}
-              className="absolute top-3 right-3 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-all duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              title="Copy to clipboard"
+              onClick={handleGenerate}
+              disabled={!task.trim() || isLoading}
+              className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white py-4 px-8 rounded-2xl font-semibold text-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
-              {isCopied ? (
-                <Check className="w-4 h-4" />
+              {isLoading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Generating Magic...
+                </>
               ) : (
-                <Copy className="w-4 h-4" />
+                <>
+                  <Wand2 className="w-5 h-5" />
+                  Generate Windsurf Prompt
+                </>
               )}
             </motion.button>
           </div>
+
+          {/* Section de résultat */}
+          {result && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-8"
+            >
+              <div className="relative">
+                <div className="bg-slate-900/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden">
+                  <div className="flex items-center justify-between p-4 border-b border-slate-700/50">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="ml-4 text-slate-300 text-sm font-medium">Optimized Prompt</span>
+                    </div>
+                    <motion.button
+                      onClick={handleCopy}
+                      className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg transition-all duration-200 border border-blue-500/30"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {isCopied ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          <span className="text-sm font-medium">Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          <span className="text-sm font-medium">Copy</span>
+                        </>
+                      )}
+                    </motion.button>
+                  </div>
+                  <pre className="p-6 text-slate-200 whitespace-pre-wrap overflow-x-auto max-h-96 overflow-y-auto leading-relaxed text-sm font-mono">
+                    {result.prompt}
+                  </pre>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </motion.div>
-      )}
+      </div>
     </div>
   );
 }
