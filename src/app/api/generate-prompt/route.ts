@@ -86,192 +86,25 @@ const detectIntention = (task: string) => {
 
 // Prompts système spécialisés par type
 const getSystemPrompt = (intention: Intention) => {
-  const basePrompt = `Tu es un expert en ingénierie de prompts spécialisé dans l'optimisation des prompts pour Windsurf AI. 
+  const basePrompt = `Tu es un expert en amélioration de prompts pour Windsurf AI. 
 
-RÈGLES IMPORTANTES :
-- Génère des prompts CONCIS et DIRECTS (maximum 200-300 mots)
-- Évite les listes exhaustives et les spécifications trop détaillées
-- Focus sur l'essentiel de la demande utilisateur
-- Le prompt doit être immédiatement compréhensible par Windsurf
-- Utilise un langage naturel et précis
-- Adapte le niveau de détail à la complexité de la tâche`;
+MISSION :
+- Améliore légèrement les demandes utilisateur sans les transformer
+- Garde l'intention EXACTE et originale
+- Ajoute seulement la clarté nécessaire
+- Reste très concis (50-80 mots maximum)
+- N'invente jamais de nouvelles fonctionnalités
+- Respecte parfaitement ce que l'utilisateur veut vraiment`;
 
-  const typeSpecificPrompts: Record<string, string> = {
-    ui_design: `${basePrompt}
-
-SPÉCIALISATION UI/UX DESIGN :
-Tu dois créer un prompt qui génère du code pour des interfaces utilisateur parfaites. Inclus :
-- Spécifications visuelles détaillées (couleurs, typographie, espacements)
-- Responsive design pour tous les écrans
-- Accessibilité (WCAG 2.1 AA minimum)
-- Animations et micro-interactions
-- États des composants (hover, focus, active, disabled)
-- Structure HTML sémantique
-- CSS/Tailwind optimisé
-- Compatibilité navigateurs`,
-
-    frontend: `${basePrompt}
-
-SPÉCIALISATION FRONTEND :
-Tu dois créer un prompt qui génère du code frontend robuste. Inclus :
-- Architecture de composants claire
-- Gestion d'état appropriée
-- Hooks/lifecycle optimisés
-- Performance et optimisation
-- Gestion des erreurs
-- Tests unitaires
-- TypeScript strict
-- Bundling et build optimisé`,
-
-    backend: `${basePrompt}
-
-SPÉCIALISATION BACKEND :
-Tu dois créer un prompt qui génère du code backend sécurisé et performant. Inclus :
-- Architecture API RESTful/GraphQL
-- Validation des données stricte
-- Authentification et autorisation
-- Gestion des erreurs robuste
-- Logging et monitoring
-- Tests d'intégration
-- Sécurité (OWASP)
-- Performance et mise en cache
-- Documentation API`,
-
-    fullstack: `${basePrompt}
-
-SPÉCIALISATION FULLSTACK :
-Tu dois créer un prompt qui génère une application complète. Inclus :
-- Architecture frontend/backend cohérente
-- Communication API optimisée
-- Base de données bien structurée
-- Authentification complète
-- Déploiement et CI/CD
-- Tests end-to-end
-- Monitoring et analytics
-- Sécurité complète`,
-
-    mobile: `${basePrompt}
-
-SPÉCIALISATION MOBILE :
-Tu dois créer un prompt qui génère du code mobile natif/cross-platform. Inclus :
-- Navigation mobile optimisée
-- Gestion des états offline
-- Performance mobile
-- Notifications push
-- Intégrations natives
-- Tests sur devices
-- App store guidelines
-- Responsive design mobile-first`,
-
-    data: `${basePrompt}
-
-SPÉCIALISATION DATA & ANALYTICS :
-Tu dois créer un prompt qui génère du code pour l'analyse de données. Inclus :
-- Visualisations interactives
-- Performance avec gros datasets
-- Filtres et recherche avancée
-- Export de données
-- Calculs en temps réel
-- Caching intelligent
-- Accessibilité des graphiques
-- Responsive data tables`,
-
-    auth: `${basePrompt}
-
-SPÉCIALISATION AUTHENTIFICATION :
-Tu dois créer un prompt qui génère un système d'auth sécurisé. Inclus :
-- JWT/Session management
-- Validation stricte des inputs
-- Hachage sécurisé des mots de passe
-- 2FA/MFA support
-- Rate limiting
-- Audit logs
-- GDPR compliance
-- Recovery flows
-- Social login integration`,
-
-    ecommerce: `${basePrompt}
-
-SPÉCIALISATION E-COMMERCE :
-Tu dois créer un prompt qui génère du code e-commerce professionnel. Inclus :
-- Catalogue produits optimisé
-- Panier et checkout sécurisé
-- Intégration paiement (Stripe/PayPal)
-- Gestion des stocks
-- Commandes et facturation
-- SEO e-commerce
-- Analytics de vente
-- Performance et caching
-- Sécurité PCI DSS`,
-
-    cms: `${basePrompt}
-
-SPÉCIALISATION CMS :
-Tu dois créer un prompt qui génère un système de gestion de contenu. Inclus :
-- Éditeur WYSIWYG
-- Gestion des médias
-- SEO automatique
-- Versioning du contenu
-- Workflow de publication
-- Multi-langue support
-- Performance et caching
-- Sécurité et permissions
-- API headless`,
-
-    game: `${basePrompt}
-
-SPÉCIALISATION GAMING :
-Tu dois créer un prompt qui génère du code de jeu. Inclus :
-- Game loop optimisé
-- Gestion des inputs
-- Animations fluides
-- Sound management
-- Score et progression
-- Performance 60fps
-- Mobile touch support
-- Sauvegarde locale
-- Responsive canvas`,
-
-    general: basePrompt
-  };
-
-  return typeSpecificPrompts[intention.primaryType] || typeSpecificPrompts.general;
+  // On utilise toujours le même prompt de base, simple et efficace
+  return basePrompt;
 };
 
 const generateOptimizedPrompt = (intention: Intention) => {
-  const { primaryType, technologies, complexity, originalTask } = intention;
+  const { originalTask } = intention;
   
-  // Prompt de base simple et direct
-  let prompt = `${originalTask}`;
-
-  // Ajout de contexte technique minimal selon le type détecté
-  if (primaryType === 'ui_design') {
-    prompt += `\n\nCrée une interface moderne et responsive avec un design professionnel. Utilise des composants réutilisables et assure-toi que l'interface soit accessible.`;
-  }
-
-  if (technologies.includes('react')) {
-    prompt += `\n\nUtilise React avec des composants fonctionnels et hooks. Assure-toi que le code soit typé avec TypeScript.`;
-  }
-
-  if (technologies.includes('tailwind')) {
-    prompt += `\n\nUtilise Tailwind CSS pour le styling avec des classes utilitaires cohérentes.`;
-  }
-
-  if (primaryType === 'backend' || technologies.includes('nodejs')) {
-    prompt += `\n\nCrée une API robuste avec une architecture claire, validation des données et gestion d'erreurs appropriée.`;
-  }
-
-  // Ajout d'exigences selon la complexité
-  if (complexity === 'advanced') {
-    prompt += `\n\nLe code doit être de niveau production avec une architecture scalable, des tests et une documentation complète.`;
-  } else if (complexity === 'simple') {
-    prompt += `\n\nGarde le code simple et facile à comprendre.`;
-  }
-
-  // Instruction finale
-  prompt += `\n\nGénère du code complet, fonctionnel et prêt à utiliser.`;
-
-  return prompt;
+  // Fallback simple : juste la tâche originale avec une petite amélioration
+  return `${originalTask}\n\nAssure-toi que le code soit propre, fonctionnel et bien structuré.`;
 };
 
 export async function POST(request: NextRequest) {
@@ -319,26 +152,31 @@ export async function POST(request: NextRequest) {
           },
           {
             role: 'user',
-            content: `Analyse cette demande et génère un prompt Windsurf concis et naturel :
+            content: `Analyse cette demande et améliore-la légèrement pour Windsurf :
 
-DEMANDE : "${task}"
+DEMANDE ORIGINALE : "${task}"
 
-INSTRUCTIONS :
-- Génère un prompt court et direct (maximum 100-150 mots)
-- Utilise un langage naturel et conversationnel
-- Inclus seulement les détails techniques essentiels
-- Évite les listes longues et les spécifications exhaustives
-- Le prompt doit être immédiatement compréhensible
-- Focus sur l'intention principale de l'utilisateur
+RÈGLES STRICTES :
+- Garde l'intention EXACTE de l'utilisateur
+- Améliore seulement la clarté et la précision
+- Maximum 50-80 mots (très court !)
+- Utilise un langage simple et direct
+- N'ajoute PAS de détails techniques non demandés
+- N'invente PAS de nouvelles fonctionnalités
+- Reste fidèle à la demande originale
 
-Retourne UNIQUEMENT le prompt optimisé, sans explication.`
+EXEMPLE :
+Demande : "crée un bouton"
+Prompt amélioré : "Crée un bouton moderne et responsive avec des états hover et focus appropriés."
+
+Retourne UNIQUEMENT le prompt amélioré, rien d'autre.`
           }
         ],
-        temperature: 0.3,
-        max_tokens: 3000,
-        top_p: 0.9,
-        frequency_penalty: 0.1,
-        presence_penalty: 0.1
+        temperature: 0.2,
+        max_tokens: 200,
+        top_p: 0.8,
+        frequency_penalty: 0.2,
+        presence_penalty: 0.2
       }),
     });
 

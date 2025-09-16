@@ -1,16 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Copy, Check, Loader2, Wand2, Brain, Code2, Palette, Server, Smartphone, BarChart3, Shield, ShoppingCart, FileText, Gamepad2 } from 'lucide-react';
-import { PromptGeneratorProps, GenerationResult } from '@/types';
+import { Wand2, Loader2, Copy, Check, Sparkles, Brain, Code, Palette, Server, Smartphone, BarChart3, Shield, ShoppingCart, FileText, Gamepad2, Mic, MicOff } from 'lucide-react';
+import { GenerationResult, PromptGeneratorProps } from '@/types';
 
 const getTypeIcon = (type: string) => {
   const icons = {
     ui_design: Palette,
-    frontend: Code2,
+    frontend: Code,
     backend: Server,
-    fullstack: Code2,
+    fullstack: Code,
     mobile: Smartphone,
     data: BarChart3,
     auth: Shield,
@@ -53,6 +53,10 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
   const [result, setResult] = useState<GenerationResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
 
   const handleGenerate = async () => {
     if (!task.trim()) return;
@@ -82,6 +86,82 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
       setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {
       console.error('Erreur lors de la copie:', error);
+    }
+  };
+
+  // Initialisation de la reconnaissance vocale
+  useEffect(() => {
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const recognition = new SpeechRecognition();
+      
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'fr-FR';
+      
+      recognition.onstart = () => {
+        setIsListening(true);
+      };
+      
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      recognition.onresult = (event: any) => {
+        let finalTranscript = '';
+        let interimTranscript = '';
+        
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+        
+        if (finalTranscript) {
+          setTask(prev => prev + finalTranscript);
+        }
+      };
+      
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      recognition.onerror = (event: any) => {
+        console.error('Erreur de reconnaissance vocale:', event.error);
+        setIsRecording(false);
+        setIsListening(false);
+      };
+      
+      recognition.onend = () => {
+        setIsListening(false);
+        if (isRecording) {
+          // Redémarrer automatiquement si on est encore en mode enregistrement
+          recognition.start();
+        }
+      };
+      
+      recognitionRef.current = recognition;
+    }
+    
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, [isRecording]);
+
+  const toggleRecording = () => {
+    if (!recognitionRef.current) {
+      alert('La reconnaissance vocale n\'est pas supportée par votre navigateur');
+      return;
+    }
+
+    if (isRecording) {
+      // Arrêter l'enregistrement
+      recognitionRef.current.stop();
+      setIsRecording(false);
+      setIsListening(false);
+    } else {
+      // Commencer l'enregistrement
+      setIsRecording(true);
+      recognitionRef.current.start();
     }
   };
 
@@ -136,9 +216,41 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
                 value={task}
                 onChange={(e) => setTask(e.target.value)}
                 placeholder="Décrivez votre tâche de développement... Par exemple : 'Créer un système d'authentification avec React et Firebase' ou 'Construire une API REST pour gérer les produits avec Node.js et MongoDB' ou 'Designer une interface moderne avec animations'"
-                className="w-full min-h-[160px] p-6 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 resize-none text-white placeholder-slate-300 text-lg leading-relaxed transition-all duration-300"
+                className="w-full min-h-[160px] p-6 pr-16 bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400/50 resize-none text-white placeholder-slate-300 text-lg leading-relaxed transition-all duration-300"
                 disabled={isLoading}
               />
+              
+              {/* Bouton microphone */}
+              <motion.button
+                onClick={toggleRecording}
+                className={`absolute bottom-4 right-14 p-2 rounded-full transition-all duration-200 ${
+                  isRecording 
+                    ? 'bg-red-500/20 text-red-400 border border-red-400/50' 
+                    : 'bg-white/10 text-slate-300 border border-white/20 hover:bg-white/20'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                title={isRecording ? "Arrêter l'enregistrement" : "Commencer l'enregistrement vocal"}
+              >
+                {isRecording ? (
+                  <MicOff className="w-4 h-4" />
+                ) : (
+                  <Mic className="w-4 h-4" />
+                )}
+              </motion.button>
+              
+              {/* Indicateur d'écoute */}
+              {isListening && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute bottom-2 right-14 flex items-center gap-1"
+                >
+                  <div className="w-1 h-1 bg-red-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs text-red-400">Écoute...</span>
+                </motion.div>
+              )}
+              
               <div className="absolute bottom-4 right-4 text-sm text-slate-400">
                 {task.length}/1000
               </div>
