@@ -1,50 +1,78 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Code2, Star } from 'lucide-react';
+import { Star } from 'lucide-react';
 
 export default function Header() {
   return (
-    <motion.header
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-center space-y-6 mb-12"
-    >
-      <div className="flex items-center justify-center gap-3 mb-4">
-        <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl shadow-lg">
-          <Code2 className="w-8 h-8 text-white" />
+    <div className="bg-white">
+      {/* Navigation */}
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center py-6">
+          <div className="flex items-center">
+            <span className="text-2xl font-bold text-gray-900">Windsurf Prompt Generator</span>
+          </div>
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="#reviews" className="text-gray-600 hover:text-gray-900">Reviews</a>
+            <a href="#pricing" className="text-gray-600 hover:text-gray-900">Pricing</a>
+            <a href="#faq" className="text-gray-600 hover:text-gray-900">FAQ</a>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button className="text-gray-600 hover:text-gray-900">Sign in</button>
+            <button className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800">
+              Get Started
+            </button>
+          </div>
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Générateur de Prompts Windsurf
+      </nav>
+
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center"
+      >
+        <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+          Windsurf Prompt Generator
         </h1>
-      </div>
+        
+        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+          Turn your coding task into a perfectly crafted Windsurf prompt that generates error-free, 
+          working code and helps you build better products every single time.
+        </p>
 
-      <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-        Transformez vos idées de codage en prompts parfaitement optimisés qui génèrent du code 
-        <span className="font-semibold text-gray-800"> sans erreur et prêt pour la production</span> à chaque fois.
-      </p>
+        <div className="flex items-center justify-center gap-2 mb-8">
+          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+            AI-Powered
+          </span>
+        </div>
 
-      <div className="flex items-center justify-center gap-2 text-yellow-500">
-        <div className="flex">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} className="w-5 h-5 fill-current" />
-          ))}
+        <div className="flex items-center justify-center gap-2 text-yellow-500 mb-8">
+          <div className="flex">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} className="w-5 h-5 fill-current" />
+            ))}
+          </div>
+          <span className="text-gray-700 font-medium">4.9</span>
         </div>
-        <span className="text-gray-700 font-medium">4.9</span>
-        <span className="text-gray-500">Basé sur 1,239 avis utilisateurs</span>
-      </div>
 
-      <div className="flex flex-col sm:flex-row items-center gap-3">
-        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-100 to-blue-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium border border-green-200">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          Alimenté par l&apos;IA - Aucune inscription requise
+        <p className="text-sm text-gray-500 mb-2">Based on 1,239 user reviews</p>
+        
+        <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
+              <span className="text-xs font-medium">B</span>
+            </div>
+            <span>Created By</span>
+          </div>
+          <span>Bernard Bado</span>
         </div>
-        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium border border-purple-200">
-          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-          Modèle Sonoma Dusk Alpha
+
+        <div className="mt-4 text-sm text-gray-500">
+          Last Update: April 15, 2025
         </div>
-      </div>
-    </motion.header>
+      </motion.div>
+    </div>
   );
 }

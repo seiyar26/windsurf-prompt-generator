@@ -98,11 +98,11 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
           <textarea
             value={task}
             onChange={(e) => setTask(e.target.value)}
-            placeholder="Décrivez votre tâche de codage... Par exemple : 'Créer un système d'authentification utilisateur avec React et Firebase' ou 'Construire une API REST pour gérer les produits avec Node.js et MongoDB'"
-            className="w-full min-h-[120px] p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-700 placeholder-gray-500 shadow-sm transition-all duration-200"
+            placeholder="Describe your coding task... For example: 'Create a user authentication system with React and Firebase' or 'Build a REST API to manage products with Node.js and MongoDB'"
+            className="w-full min-h-[150px] p-6 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none text-gray-900 placeholder-gray-500 text-lg leading-relaxed transition-all duration-200"
             disabled={isLoading}
           />
-          <div className="absolute bottom-3 right-3 text-sm text-gray-400">
+          <div className="absolute bottom-4 right-4 text-sm text-gray-400">
             {task.length}/1000
           </div>
         </div>
@@ -110,19 +110,19 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
         <motion.button
           onClick={handleGenerate}
           disabled={!task.trim() || isLoading}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
+          className="w-full bg-black text-white py-4 px-8 rounded-lg font-medium text-lg hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.99 }}
         >
           {isLoading ? (
             <>
               <Loader2 className="w-5 h-5 animate-spin" />
-              Génération en cours...
+              Generating Windsurf Prompt
             </>
           ) : (
             <>
               <Wand2 className="w-5 h-5" />
-              Générer le Prompt Windsurf
+              Generate Windsurf Prompt
             </>
           )}
         </motion.button>
@@ -142,33 +142,32 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3 }}
-              className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6"
+              className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8"
             >
-              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <Brain className="w-5 h-5 text-blue-600" />
-                Analyse Intelligente de Votre Tâche
+              <h3 className="text-lg font-semibold text-gray-900 mb-6">
+                Task Analysis
               </h3>
               
-              <div className="grid md:grid-cols-3 gap-4">
-                <div className="flex items-center gap-3">
-                  {(() => {
-                    const IconComponent = getTypeIcon(result.intention.primaryType);
-                    return <IconComponent className="w-6 h-6 text-blue-600" />;
-                  })()}
-                  <div>
-                    <p className="text-sm text-gray-600">Type détecté</p>
-                    <p className="font-semibold text-gray-800">
+              <div className="grid md:grid-cols-3 gap-6">
+                <div>
+                  <p className="text-sm text-gray-600 mb-2">Detected Type</p>
+                  <div className="flex items-center gap-2">
+                    {(() => {
+                      const IconComponent = getTypeIcon(result.intention.primaryType);
+                      return <IconComponent className="w-5 h-5 text-gray-700" />;
+                    })()}
+                    <p className="font-medium text-gray-900">
                       {getTypeLabel(result.intention.primaryType)}
                     </p>
                   </div>
                 </div>
 
                 <div>
-                  <p className="text-sm text-gray-600 mb-2">Complexité</p>
-                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getComplexityColor(result.intention.complexity)}`}>
-                    {result.intention.complexity === 'simple' && '🟢 Simple'}
-                    {result.intention.complexity === 'intermediate' && '🔵 Intermédiaire'}
-                    {result.intention.complexity === 'advanced' && '🟣 Avancé'}
+                  <p className="text-sm text-gray-600 mb-2">Complexity</p>
+                  <span className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-white border border-gray-200 text-gray-900">
+                    {result.intention.complexity === 'simple' && 'Simple'}
+                    {result.intention.complexity === 'intermediate' && 'Intermediate'}
+                    {result.intention.complexity === 'advanced' && 'Advanced'}
                   </span>
                 </div>
 
@@ -179,25 +178,25 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
                       result.intention.technologies.map((tech, index) => (
                         <span
                           key={index}
-                          className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-800"
+                          className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-white border border-gray-200 text-gray-900"
                         >
                           {tech}
                         </span>
                       ))
                     ) : (
-                      <span className="text-sm text-gray-500 italic">Auto-détectées</span>
+                      <span className="text-sm text-gray-500">Auto-detected</span>
                     )}
                   </div>
                 </div>
               </div>
 
               {result.model && (
-                <div className="mt-4 pt-4 border-t border-blue-200">
+                <div className="mt-6 pt-4 border-t border-gray-200">
                   <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Sparkles className="w-4 h-4" />
-                    <span>Généré avec {result.model}</span>
+                    <span>Generated with {result.model}</span>
                     {result.fallback && (
-                      <span className="text-orange-600 font-medium">(Mode de secours)</span>
+                      <span className="text-orange-600 font-medium">(Fallback mode)</span>
                     )}
                   </div>
                 </div>
@@ -206,54 +205,46 @@ export default function PromptGenerator({ onGenerate }: PromptGeneratorProps) {
           )}
 
           {/* Prompt généré */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-yellow-500" />
-                Votre Prompt Ultra-Optimisé
+              <h3 className="text-xl font-semibold text-gray-900">
+                Your Optimized Prompt
               </h3>
               <motion.button
                 onClick={handleCopy}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 shadow-md hover:shadow-lg"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-all duration-200"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 {isCopied ? (
                   <>
                     <Check className="w-4 h-4" />
-                    <span className="font-medium">Copié !</span>
+                    <span className="font-medium">Copied!</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-4 h-4" />
-                    <span className="font-medium">Copier</span>
+                    <span className="font-medium">Copy</span>
                   </>
                 )}
               </motion.button>
             </div>
 
             <div className="relative">
-              <pre className="bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-200 rounded-xl p-6 text-sm text-gray-700 whitespace-pre-wrap overflow-x-auto shadow-inner max-h-96 overflow-y-auto">
+              <pre className="bg-white border-2 border-gray-200 rounded-lg p-6 text-sm text-gray-900 whitespace-pre-wrap overflow-x-auto max-h-96 overflow-y-auto leading-relaxed">
                 {result.prompt}
               </pre>
-              <div className="absolute top-3 right-3">
-                <div className="bg-white/80 backdrop-blur-sm rounded-lg px-2 py-1 text-xs text-gray-500 border">
-                  {result.prompt.length} caractères
+              <div className="absolute top-4 right-4">
+                <div className="bg-gray-100 rounded-md px-2 py-1 text-xs text-gray-600">
+                  {result.prompt.length} characters
                 </div>
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <p className="text-green-800 text-sm">
-                  <strong>✅ Prêt à utiliser :</strong> Ce prompt est optimisé pour générer du code de qualité production immédiatement utilisable.
-                </p>
-              </div>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-blue-800 text-sm">
-                  <strong>💡 Conseil :</strong> Copiez et collez directement dans Windsurf pour des résultats optimaux !
-                </p>
-              </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <p className="text-blue-900 text-sm">
+                <strong>💡 Developer insider tip:</strong> Copy this prompt and paste it directly into Windsurf for optimal results!
+              </p>
             </div>
           </div>
         </motion.div>
